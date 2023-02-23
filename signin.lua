@@ -608,8 +608,14 @@ local function signInMenu()
   local back = display.newRect(signInGroup,q.cx,q.cy,q.fullw,q.fullh)
 	back.fill = c.backGround
 
-	local backLogo = display.newImageRect( signInGroup, "img/logo_words.png", 180, 180 )
-	backLogo.x, backLogo.y = q.cx, 220
+	local backLogoRounded = display.newRoundedRect( signInGroup, q.cx, 220, 200, 200, 30 )
+	backLogoRounded.fill = {
+		type = "image",
+		filename = "img/logo.png"
+	}
+
+	-- local backLogo = display.newImageRect( signInGroup, "img/logo.png", 180, 180 )
+	-- backLogo.x, backLogo.y = q.cx, 220
 
 
 	local labelSignIn = display.newText( {
@@ -784,6 +790,11 @@ signUpMenu = function()
 	local back = display.newRect(signUpGroup,q.cx,q.cy,q.fullw,q.fullh)
 	back.fill = c.backGround
 
+	local backLogoRounded = display.newRoundedRect( signUpGroup, q.cx, 180, 200, 200, 30 )
+	backLogoRounded.fill = {
+		type = "image",
+		filename = "img/logo.png"
+	}
 	-- local backLogo = display.newImageRect( signUpGroup, "img/logo.png", 180, 180 )
 	-- backLogo.x, backLogo.y = q.cx, 220
 
@@ -819,7 +830,7 @@ signUpMenu = function()
 
 	local lastY = 540
 	local space = 30
-	lastY = lastY + createField( signUpGroup, lastY, "Ваше имя", "UPname", "Введите ФИО" ) + space
+	lastY = lastY + createField( signUpGroup, lastY, "Ваш ник", "UPname", "Введите ник" ) + space
 	fieldsTable.UPname.inputType = "no-emoji"
 
 	lastY = lastY + createField( signUpGroup, lastY, "Почта", "UPmail", "Введите почту" ) + space
@@ -1017,8 +1028,22 @@ function scene:create( event )
 		local welcomeFiller = display.newRect( welcomeGroup, q.cx, q.cy, q.fullw, q.fullh)
 		welcomeFiller.fill = q.CL"1A2525"
 
+
 		local logo = display.newImageRect( welcomeGroup, "img/logo_words.png", q.fullw*.8, (q.fullw*.8)/4.8 )
 		logo.x, logo.y = q.cx, q.cy-100
+
+		local aboutAppLabel = display.newText( {
+			parent = welcomeGroup,
+			text = "Данное приложение было разработано\nкомандой Sight в рамках хакатона YAKSE.\n\nСервера для этого приложения будут\nотключены в конце февраля 2023.",
+			align = "center",
+			width = q.fullw-200,
+			x = q.cx,
+			y = logo.y + logo.height*.5+50,
+			font = "fonts/sah_roboto_r.ttf",
+			fontSize = 30,
+		} )
+		aboutAppLabel.anchorY = 0
+
 
 		-- local welcomeLabelMain = display.newVisualParagraph("Новая платформа для контент-мейкеров", q.fullw - 40*2,{
 	 --    lineHeight = 1.5,
@@ -1172,6 +1197,7 @@ function scene:hide( event )
 	local phase = event.phase
 
 	if ( phase == "will" ) then
+		native.setKeyboardFocus(nil)
     Runtime:removeEventListener( "key", onKeyEvent )
 		pps.reset()
 		if allUsers then

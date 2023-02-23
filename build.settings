@@ -20,7 +20,7 @@ settings =
 	{
         --minSdkVersion = "16",
 		allowAppsReadOnlyAccessToFiles = false,
-		useGoogleServicesJson = true,
+		--useGoogleServicesJson = true,
 		usesPermissions =
         {
             "android.permission.INTERNET",

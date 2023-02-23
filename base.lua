@@ -54,17 +54,23 @@ local function onTimer(tag)
   timer.performWithDelay( timers[tag].time, timers[tag].func, timers[tag].cycle, tag )
 end
 local function jsonForUrl(jsonString)
+  -- native.showAlert( "JSON", jsonString )
   jsonString = jsonString:gsub("{","%%7b")
-  jsonString = jsonString:gsub("}","%%7d")
-  jsonString = jsonString:gsub(",", "%%2c")
-  jsonString = jsonString:gsub(",", "%%2c")
+  jsonString = jsonString:gsub("}","%%7d")  
   jsonString = jsonString:gsub(",", "%%2c")
   jsonString = jsonString:gsub(":", "%%3a")
   jsonString = jsonString:gsub("%[", "%%5b")
   jsonString = jsonString:gsub("%]", "%%5d")
+  jsonString = jsonString:gsub("%]", "%%5d")
+  jsonString = jsonString:gsub("/", "%%2f")
+  -- local slash = string.byte([[\\]])
+  -- print(slash,string.char(slash))
+  jsonString = jsonString:gsub("\\","%%5c")
+
 
   jsonString = jsonString:gsub("=", "-")
   jsonString = jsonString:gsub("-", "%%3d")
+  -- native.showAlert( "URL", jsonString )
   return jsonString
 end
 
@@ -125,8 +131,30 @@ local isLocalBase = false
 -- http://127.0.0.1/dashboard/newsDownload.php
 local baseScriptsUrl = "http://127.0.0.1/dashboard/"
 
+local function deepcopy(orig, copies)
+    copies = copies or {}
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        if copies[orig] then
+            copy = copies[orig]
+        else
+            copy = {}
+            copies[orig] = copy
+            for orig_key, orig_value in next, orig, nil do
+                copy[deepcopy(orig_key, copies)] = deepcopy(orig_value, copies)
+            end
+            setmetatable(copy, deepcopy(getmetatable(orig), copies))
+        end
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end
+
 local a = math.random( 1000)
 local base = {
+  deepcopy = deepcopy,
   cx = round(display.contentCenterX),
   cy = round(display.contentCenterY),
   fullw  = round(display.actualContentWidth),
