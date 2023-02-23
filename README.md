@@ -1,4 +1,4 @@
-# -Sakha-Guide
+# Sakha Guide
 Приложение разработанное в рамках хакатона YAKSE。
 
 Приложение разработна на кроссплатформенном(android, ios, windows) фреймворке Solar2D. Бекенд работает н фреймворке Laravel + phphPgAdmin.
