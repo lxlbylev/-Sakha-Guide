@@ -986,6 +986,11 @@ local task_ui = {
       q.event.remove("answ2_"..eventGroupName,eventGroupName)
       q.event.remove("answ3_"..eventGroupName,eventGroupName)
       q.event.remove("answ4_"..eventGroupName,eventGroupName)
+    elseif taskType=="imageCorrect" then
+      q.event.remove("answ1_"..eventGroupName,eventGroupName)
+      q.event.remove("answ2_"..eventGroupName,eventGroupName)
+      q.event.remove("answ3_"..eventGroupName,eventGroupName)
+      q.event.remove("answ4_"..eventGroupName,eventGroupName)
     end
   end,
   draw = function(task, eventGroupName, answersTable)
